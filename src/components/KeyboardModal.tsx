@@ -42,7 +42,7 @@ export default function KeyboardModal({ isOpen, onClose, onSend }: KeyboardModal
         <div className="flex items-center gap-4 mb-8">
           <div className="p-2 rounded-full">
             <img
-              src="public/images/logo.png"
+              src="/images/logo.png"
               alt="Aunty Ola Logo"
               className="w-14 h-14 rounded-full border-2 border-white/20"
             />

@@ -53,7 +53,7 @@ export default function ChatInterface() {
         <div className="flex items-center gap-4 mb-6">
           <div className="bg-gradient-to-br from-nigerian-gold-500 to-nigerian-purple-600 p-1 rounded-full">
           <img 
-              src="public/images/logo.png" 
+              src="/images/logo.png" 
               alt="Aunty Ola Logo" 
               className="w-12 h-12 rounded-full border-2 border-white/20"
             />

@@ -13,7 +13,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
           <img 
-              src="public/images/logo.png" 
+              src="/images/logo.png" 
               alt="Aunty Ola Logo" 
               className="w-16 h-16 rounded-full border-2 border-white/20"
             />
