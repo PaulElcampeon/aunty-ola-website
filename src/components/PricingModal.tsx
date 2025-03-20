@@ -8,22 +8,25 @@ interface PricingModalProps {
 const plans = [
   {
     name: 'Monthly',
-    price: '£6',
+    price: '£5',
     period: 'month',
     features: ['Unlimited conversations', 'Priority support', 'Access to all features'],
+    url:"https://buy.stripe.com/test_bIYeVk6kbb0FgiQcNu"
   },
   {
     name: '3 Months',
-    price: '£17',
+    price: '£13',
     period: '3 months',
     features: ['Save £1 per month', 'Unlimited conversations', 'Priority support', 'Access to all features'],
     recommended: true,
+    url: "https://buy.stripe.com/test_28o4gGdMD7Ot2s000J"
   },
   {
-    name: 'Annual',
-    price: '£66',
-    period: 'year',
-    features: ['Save £2.50 per month', 'Unlimited conversations', 'Priority support', 'Access to all features'],
+    name: '6 Months',
+    price: '£25',
+    period: '6 months',
+    features: ['Unlimited conversations', 'Priority support', 'Access to all features'],
+    url: "https://buy.stripe.com/test_eVa5kKeQH5Gl7MkeVF"
   },
 ];
 
@@ -71,7 +74,8 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
                   </li>
                 ))}
               </ul>
-              <button className="w-full bg-nigerian-purple-600 text-white py-2 rounded-lg hover:bg-nigerian-purple-700 transition-colors text-sm sm:text-base">
+              <button className="w-full bg-nigerian-purple-600 text-white py-2 rounded-lg hover:bg-nigerian-purple-700 transition-colors text-sm sm:text-base"
+              onClick={() => window.location.href = plan.url}>
                 Select Plan
               </button>
             </div>

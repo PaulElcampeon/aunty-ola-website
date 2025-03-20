@@ -3,8 +3,14 @@ import { MessageCircle } from 'lucide-react';
 import LoginModal from './LoginModal';
 import PricingModal from './PricingModal';
 
-export default function Header() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+interface HeaderProps {
+  onLoginClick: () => void;
+  isLoginOpen: boolean;
+  onLoginClose: () => void;
+}
+
+export default function Header({ onLoginClick, isLoginOpen, onLoginClose }: HeaderProps) {
+  // const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isPricingOpen, setIsPricingOpen] = useState(false);
 
   return (
@@ -26,7 +32,7 @@ export default function Header() {
               Pricing
             </button>
             <button
-              onClick={() => setIsLoginOpen(true)}
+              onClick={onLoginClick}
               className="px-4 py-2 bg-nigerian-gold-500 text-white rounded-lg hover:bg-nigerian-gold-600 transition-colors"
             >
               Login
@@ -35,8 +41,10 @@ export default function Header() {
         </div>
       </header>
 
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
+      {/* <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} /> */}
     </>
   );
 }
