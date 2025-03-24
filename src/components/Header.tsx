@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageCircle } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
 import LoginModal from './LoginModal';
 import PricingModal from './PricingModal';
 
@@ -7,10 +7,21 @@ interface HeaderProps {
   onLoginClick: () => void;
   isLoginOpen: boolean;
   onLoginClose: () => void;
+  onCreateAccountClick: () => void;
+  isLoggedIn: boolean;
+  onLogout: () => void;
+  onProfileClick: () => void;
 }
 
-export default function Header({ onLoginClick, isLoginOpen, onLoginClose }: HeaderProps) {
-  // const [isLoginOpen, setIsLoginOpen] = useState(false);
+export default function Header({ 
+  onLoginClick, 
+  isLoginOpen, 
+  onLoginClose, 
+  onCreateAccountClick,
+  isLoggedIn,
+  onLogout,
+  onProfileClick
+}: HeaderProps) {
   const [isPricingOpen, setIsPricingOpen] = useState(false);
 
   return (
@@ -18,9 +29,9 @@ export default function Header({ onLoginClick, isLoginOpen, onLoginClose }: Head
       <header className="fixed w-full backdrop-blur-sm text-white p-4 z-10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-          <img 
-              src="/images/logo.png" 
-              alt="Aunty Ola Logo" 
+            <img
+              src="/images/logo.png"
+              alt="Aunty Ola Logo"
               className="w-16 h-16 rounded-full border-2 border-white/20"
             />
           </div>
@@ -31,20 +42,41 @@ export default function Header({ onLoginClick, isLoginOpen, onLoginClose }: Head
             >
               Pricing
             </button>
-            <button
-              onClick={onLoginClick}
-              className="px-4 py-2 bg-nigerian-gold-500 text-white rounded-lg hover:bg-nigerian-gold-600 transition-colors"
-            >
-              Login
-            </button>
+            {isLoggedIn ? (
+              <>
+                <button
+                  onClick={onProfileClick}
+                  className="px-4 py-2 bg-white/5 text-white hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <User className="w-5 h-5" />
+                  Profile
+                </button>
+                <button
+                  onClick={onLogout}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+                >
+                  <LogOut className="w-5 h-5" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="px-4 py-2 bg-nigerian-gold-500 text-white rounded-lg hover:bg-nigerian-gold-600 transition-colors"
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       </header>
 
-      <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
+      <LoginModal 
+        isOpen={isLoginOpen} 
+        onClose={onLoginClose}
+        onCreateAccountClick={onCreateAccountClick}
+      />
       <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
-      {/* <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} /> */}
     </>
   );
 }

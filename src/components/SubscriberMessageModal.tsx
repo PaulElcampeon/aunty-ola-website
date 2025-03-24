@@ -1,5 +1,4 @@
 import React from 'react';
-import { MessageCircle } from 'lucide-react';
 
 interface SubscriberMessageModalProps {
     isOpen: boolean;

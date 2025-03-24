@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { MessageCircle } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onCreateAccountClick: () => void;
 }
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose, onCreateAccountClick }: LoginModalProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) return null;
 
@@ -20,6 +22,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   const handleGoogleLogin = () => {
     window.location.href = '/oauth2/authorization/google';
+  };
+
+  const switchToCreateAccount = () => {
+    onClose();
+    onCreateAccountClick();
   };
 
   return (
@@ -37,7 +44,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               className="w-14 h-14 rounded-full border-2 border-white/20"
             />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600 bg-clip-text text-transparent">Welcome Back</h2>
+          <h2 className="text-2xl font-bold text-gray-900 bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600 bg-clip-text text-transparent">
+            Welcome Back
+          </h2>
         </div>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
           <div>
@@ -57,14 +66,31 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
-            <input
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-nigerian-purple-500 focus:border-transparent pr-12"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+            {/* <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-nigerian-purple-500 focus:border-transparent bg-white/50 backdrop-blur-sm"
               placeholder="Enter your password"
-            />
+            /> */}
           </div>
           <button
             type="submit"
@@ -72,6 +98,18 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           >
             Sign In
           </button>
+
+          <div className="text-center text-sm text-gray-600">
+            Don't have an account?{' '}
+            <button
+              type="button"
+              onClick={switchToCreateAccount}
+              className="text-nigerian-purple-600 hover:text-nigerian-purple-700 font-medium"
+            >
+              Create Account
+            </button>
+          </div>
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200"></div>
@@ -85,9 +123,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             onClick={handleGoogleLogin}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
           >
-            <img 
-              src="https://www.google.com/favicon.ico" 
-              alt="Google" 
+            <img
+              src="https://www.google.com/favicon.ico"
+              alt="Google"
               className="w-5 h-5"
             />
             <span className="text-gray-700 font-medium">Sign in with Google</span>

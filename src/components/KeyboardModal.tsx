@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { MessageCircle } from 'lucide-react';
-
 interface KeyboardModalProps {
   isOpen: boolean;
   onClose: () => void;

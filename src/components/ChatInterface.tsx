@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Keyboard, Mic, MessageCircle } from 'lucide-react';
+import { Keyboard, Mic } from 'lucide-react';
 import KeyboardModal from './KeyboardModal';
 
 export default function ChatInterface() {
@@ -9,10 +9,8 @@ export default function ChatInterface() {
   const [error, setError] = useState('');
 
   const handleSendMessage = async (message: string) => {
-    // Reset states
     setError('');
     
-    // Validate message
     if (!message.trim()) {
       setError('Please enter a question');
       return;
