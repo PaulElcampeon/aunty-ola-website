@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Keyboard, Mic } from 'lucide-react';
 import KeyboardModal from './KeyboardModal';
+import { getFromStorage } from '../utils/Storage';
 
 export default function ChatInterface() {
   const [isKeyboardModalOpen, setIsKeyboardModalOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function ChatInterface() {
 
   const handleSendMessage = async (message: string) => {
     setError('');
-    
+
     if (!message.trim()) {
       setError('Please enter a question');
       return;
@@ -19,12 +20,14 @@ export default function ChatInterface() {
     setIsWaiting(true);
     setResponse('Thinking...');
     setIsKeyboardModalOpen(false);
-    
+    const token = getFromStorage('aunty_ola_token'); // Or sessionStorage.getItem('jwt') if you stored it there
+
     try {
       const response = await fetch('/api/v1/bot/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           question: message.trim()
@@ -50,9 +53,9 @@ export default function ChatInterface() {
       <div className="bg-white rounded-3xl px-4 pt-6 pb-2 floating-card relative overflow-hidden">
         <div className="flex items-center gap-4 mb-6">
           <div className="bg-gradient-to-br from-nigerian-gold-500 to-nigerian-purple-600 p-1 rounded-full">
-          <img 
-              src="/images/logo.png" 
-              alt="Aunty Ola Logo" 
+            <img
+              src="/images/logo.png"
+              alt="Aunty Ola Logo"
               className="w-12 h-12 rounded-full border-2 border-white/20"
             />
           </div>
@@ -63,7 +66,7 @@ export default function ChatInterface() {
             <p className="text-sm text-gray-500">Ask Aunty Ola for advice on everyday life</p>
           </div>
         </div>
-        
+
         <div className="relative">
           <textarea
             value={response}
@@ -89,8 +92,8 @@ export default function ChatInterface() {
         </div>
       </div>
 
-      <KeyboardModal 
-        isOpen={isKeyboardModalOpen} 
+      <KeyboardModal
+        isOpen={isKeyboardModalOpen}
         onClose={() => setIsKeyboardModalOpen(false)}
         onSend={handleSendMessage}
       />

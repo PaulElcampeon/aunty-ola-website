@@ -6,6 +6,9 @@ import SubscriberMessageModal from './components/SubscriberMessageModal';
 import CreateAccountModal from './components/CreateAccountModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
 import ProfileModal from './components/ProfileModal';
+import LoginModal from './components/LoginModal';
+import PricingModal from './components/PricingModal';
+import { saveToStorage, removeFromStorage } from './utils/Storage';
 
 function App() {
   const [showSubscriberMessage, setShowSubscriberMessage] = useState(false);
@@ -14,6 +17,8 @@ function App() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isPricingOpen, setIsPricingOpen] = useState(false);
+  const [token, setToken] = useState<string>();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -22,16 +27,32 @@ function App() {
       const newUrl = window.location.pathname + window.location.hash;
       window.history.replaceState({}, '', newUrl);
     }
-        // Check if we're on the change password page
-        if (window.location.pathname === '/change-password') {
-          setShowChangePasswordModal(true);
-          // Remove the path without refreshing
-          window.history.replaceState({}, '', '/');
-        }
+    // Check if we're on the change password page
+    if (window.location.pathname === '/change-password') {
+      setShowChangePasswordModal(true);
+      // Remove the path without refreshing
+      window.history.replaceState({}, '', '/');
+    }
 
-            // Check authentication status
+    if (urlParams.has('token')) {
+      const token = urlParams.get('token');
+      console.log("Token", token)
+      if (token) {
+        saveToStorage('aunty_ola_token', token, false)
+        setToken(token)
+        setIsLoggedIn(true);
+        window.history.replaceState({}, '', '/');
+        return;
+      }
+    }
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+
+    // Check authentication status
     // checkAuthStatus();
-  }, []);
+  }, [token]);
 
   const checkAuthStatus = async () => {
     try {
@@ -47,6 +68,10 @@ function App() {
     setShowCreateAccountModal(false);
   };
 
+  const handlePricingClick = () => {
+    setIsPricingOpen(true);
+  };
+
   const handleCreateAccountClick = () => {
     setShowCreateAccountModal(true);
     setShowLoginModal(false);
@@ -54,9 +79,10 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      // await fetch('/api/v1/auth/logout', { method: 'POST' });
       setIsLoggedIn(false);
       setShowProfileModal(false);
+      setToken(undefined);
+      removeFromStorage('aunty_ola_token', false)
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -65,11 +91,12 @@ function App() {
   return (
     <div className="min-h-screen gradient-background">
       <Toaster position="top-center" />
-      <Header 
-        onLoginClick={handleLoginClick} 
-        isLoginOpen={showLoginModal} 
-        onLoginClose={() => setShowLoginModal(false)}
-        onCreateAccountClick={handleCreateAccountClick}
+      <Header
+        onLoginClick={handleLoginClick}
+        // isLoginOpen={showLoginModal} 
+        // onLoginClose={() => setShowLoginModal(false)}
+        // onCreateAccountClick={handleCreateAccountClick}
+        onPricingClick={handlePricingClick}
         isLoggedIn={isLoggedIn}
         onLogout={handleLogout}
         onProfileClick={() => setShowProfileModal(true)}
@@ -77,11 +104,18 @@ function App() {
       <div className="flex items-center justify-center min-h-screen">
         <ChatInterface />
       </div>
-      <SubscriberMessageModal 
+      <SubscriberMessageModal
         isOpen={showSubscriberMessage}
         onClose={() => setShowSubscriberMessage(false)}
         onLoginClick={handleLoginClick}
       />
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onCreateAccountClick={handleCreateAccountClick}
+        setToken={setToken}
+      />
+      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
       <CreateAccountModal
         isOpen={showCreateAccountModal}
         onClose={() => setShowCreateAccountModal(false)}
@@ -118,11 +152,12 @@ function App() {
   );
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const token = urlParams.get('token');
-console.log("Token", token)
-if (token) {
-  localStorage.setItem('auth_token', token);
-}
+// const urlParams = new URLSearchParams(window.location.search);
+// const token = urlParams.get('token');
+// console.log("Token", token)
+// if (token) {
+//   localStorage.setItem('auth_token', token);
+//   setToken(token)
+// }
 
 export default App;

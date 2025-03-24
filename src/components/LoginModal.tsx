@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-
+import toast from 'react-hot-toast';
+import { saveToStorage } from '../utils/Storage';
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCreateAccountClick: () => void;
+  setToken: (token: string) => void;
 }
 
-export default function LoginModal({ isOpen, onClose, onCreateAccountClick }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setToken }: LoginModalProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +25,35 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick }: Lo
   const handleGoogleLogin = () => {
     window.location.href = '/oauth2/authorization/google';
   };
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      });
+
+      if (!response.ok) {
+        toast.error('Failed to login');
+      }
+
+      const data = await response.json();
+
+      saveToStorage('aunty_ola_token', data.token, false)
+      setToken(data.token)
+      onClose();
+    } catch (err) {
+      // toast.error(err);
+      console.error('Error:', err);
+    } finally {
+    }
+  }
 
   const switchToCreateAccount = () => {
     onClose();
@@ -93,6 +124,7 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick }: Lo
             /> */}
           </div>
           <button
+           onClick={handleLogin}
             type="submit"
             className="w-full bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600 text-white py-3 rounded-xl hover:opacity-90 transition-opacity font-medium shadow-lg"
           >

@@ -52,7 +52,7 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
     if (!validateForm()) return;
 
     try {
-      const response = await fetch('/api/v1/auth/register', {
+      const response = await fetch('/api/v1/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

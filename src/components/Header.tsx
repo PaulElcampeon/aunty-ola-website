@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { LogOut, User } from 'lucide-react';
-import LoginModal from './LoginModal';
-import PricingModal from './PricingModal';
+// import LoginModal from './LoginModal';
+// import PricingModal from './PricingModal';
 
 interface HeaderProps {
   onLoginClick: () => void;
-  isLoginOpen: boolean;
-  onLoginClose: () => void;
-  onCreateAccountClick: () => void;
+  // isLoginOpen: boolean;
+  // onLoginClose: () => void;
+  onPricingClick: () => void;
   isLoggedIn: boolean;
   onLogout: () => void;
   onProfileClick: () => void;
@@ -15,14 +15,15 @@ interface HeaderProps {
 
 export default function Header({ 
   onLoginClick, 
-  isLoginOpen, 
-  onLoginClose, 
-  onCreateAccountClick,
+  // isLoginOpen, 
+  // onLoginClose, 
+  // onCreateAccountClick,
+  onPricingClick,
   isLoggedIn,
   onLogout,
   onProfileClick
 }: HeaderProps) {
-  const [isPricingOpen, setIsPricingOpen] = useState(false);
+  // const [isPricingOpen, setIsPricingOpen] = useState(false);
 
   return (
     <>
@@ -37,7 +38,7 @@ export default function Header({
           </div>
           <div className="flex gap-4">
             <button
-              onClick={() => setIsPricingOpen(true)}
+              onClick={onPricingClick}
               className="px-4 py-2 bg-white/5 text-white hover:bg-white/10 rounded-lg transition-colors"
             >
               Pricing
@@ -71,12 +72,12 @@ export default function Header({
         </div>
       </header>
 
-      <LoginModal 
+      {/* <LoginModal 
         isOpen={isLoginOpen} 
         onClose={onLoginClose}
         onCreateAccountClick={onCreateAccountClick}
       />
-      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
+      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} /> */}
     </>
   );
 }

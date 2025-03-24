@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { getFromStorage } from '../utils/Storage';
 
 interface ChangePasswordModalProps {
     isOpen: boolean;
@@ -8,8 +9,10 @@ interface ChangePasswordModalProps {
 }
 
 export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProps) {
+    const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showOldPassword, setShowOldPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState('');
@@ -31,13 +34,19 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
             return;
         }
 
+        const token = getFromStorage('aunty_ola_token'); // Or sessionStorage.getItem('jwt') if you stored it there
+
         try {
-            const response = await fetch('/api/v1/auth/change-password', {
+            const response = await fetch('/api/v1/users/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({ password }),
+                body: JSON.stringify({
+                     oldPassowrd: oldPassword,
+                     newPassword: password
+                    }),
             });
 
             if (response.status === 200) {
@@ -71,6 +80,28 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
                     </h2>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                        <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                            Old Password
+                        </label>
+                        <div className="relative">
+                            <input
+                                type={showOldPassword ? "text" : "password"}
+                                id="oldPassword"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-nigerian-purple-500 focus:border-transparent pr-12"
+                                placeholder="Enter old password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowOldPassword(!showOldPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                            >
+                                {showOldPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                            </button>
+                        </div>
+                    </div>
                     <div>
                         <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
                             New Password
