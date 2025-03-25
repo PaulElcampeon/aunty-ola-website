@@ -41,15 +41,15 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
 
       if (!response.ok) {
         toast.error('Failed to login');
+      } else {
+        const data = await response.json();
+        toast.success('Login success');
+  
+        saveToStorage('aunty_ola_token', data.token, false)
+        setToken(data.token)
+        onClose();
       }
-
-      const data = await response.json();
-
-      saveToStorage('aunty_ola_token', data.token, false)
-      setToken(data.token)
-      onClose();
     } catch (err) {
-      // toast.error(err);
       console.error('Error:', err);
     } finally {
     }
@@ -114,14 +114,6 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
-            {/* <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-nigerian-purple-500 focus:border-transparent bg-white/50 backdrop-blur-sm"
-              placeholder="Enter your password"
-            /> */}
           </div>
           <button
            onClick={handleLogin}

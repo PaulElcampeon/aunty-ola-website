@@ -27,16 +27,14 @@ function App() {
       const newUrl = window.location.pathname + window.location.hash;
       window.history.replaceState({}, '', newUrl);
     }
-    // Check if we're on the change password page
+
     if (window.location.pathname === '/change-password') {
       setShowChangePasswordModal(true);
-      // Remove the path without refreshing
       window.history.replaceState({}, '', '/');
     }
 
     if (urlParams.has('token')) {
       const token = urlParams.get('token');
-      console.log("Token", token)
       if (token) {
         saveToStorage('aunty_ola_token', token, false)
         setToken(token)
@@ -49,19 +47,8 @@ function App() {
     if (token) {
       setIsLoggedIn(true);
     }
-
-    // Check authentication status
-    // checkAuthStatus();
   }, [token]);
 
-  const checkAuthStatus = async () => {
-    try {
-      const response = await fetch('/api/v1/auth/status');
-      setIsLoggedIn(response.status === 200);
-    } catch (error) {
-      setIsLoggedIn(false);
-    }
-  };
 
   const handleLoginClick = () => {
     setShowLoginModal(true);
@@ -93,9 +80,6 @@ function App() {
       <Toaster position="top-center" />
       <Header
         onLoginClick={handleLoginClick}
-        // isLoginOpen={showLoginModal} 
-        // onLoginClose={() => setShowLoginModal(false)}
-        // onCreateAccountClick={handleCreateAccountClick}
         onPricingClick={handlePricingClick}
         isLoggedIn={isLoggedIn}
         onLogout={handleLogout}
@@ -140,24 +124,16 @@ function App() {
           // Add your subscription setup logic here
         }}
         onCancelSubscription={async () => {
-          try {
-            await fetch('/api/v1/subscription/cancel', { method: 'POST' });
-            toast.success('Subscription cancelled successfully');
-          } catch (error) {
-            toast.error('Failed to cancel subscription');
-          }
+          // try {
+          //   await fetch('/api/v1/subscription/cancel', { method: 'POST' });
+          //   toast.success('Subscription cancelled successfully');
+          // } catch (error) {
+          //   toast.error('Failed to cancel subscription');
+          // }
         }}
       />
     </div>
   );
 }
-
-// const urlParams = new URLSearchParams(window.location.search);
-// const token = urlParams.get('token');
-// console.log("Token", token)
-// if (token) {
-//   localStorage.setItem('auth_token', token);
-//   setToken(token)
-// }
 
 export default App;

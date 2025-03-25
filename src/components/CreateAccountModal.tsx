@@ -67,7 +67,8 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
         toast.success('Account created successfully');
         onClose();
       } else if (response.status === 400) {
-        setServerError('Email already exists');
+        setServerError('Email already in use');
+        toast.error('Email already in use');
       } else {
         throw new Error('Registration failed');
       }

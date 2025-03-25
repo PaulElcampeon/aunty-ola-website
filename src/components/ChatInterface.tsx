@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Keyboard, Mic } from 'lucide-react';
 import KeyboardModal from './KeyboardModal';
 import { getFromStorage } from '../utils/Storage';
+import toast from 'react-hot-toast';
 
 export default function ChatInterface() {
   const [isKeyboardModalOpen, setIsKeyboardModalOpen] = useState(false);
@@ -34,14 +35,18 @@ export default function ChatInterface() {
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get response');
+      const data = await response.json();
+
+      if (response.ok) {
+        setResponse(data.response || 'No response received');
       }
 
-      const data = await response.json();
-      setResponse(data.response || 'No response received');
+      if (response.status === 403) {
+        // data.message
+        toast.error("Make sure to have a valid subscription");
+        setResponse('Come on go and subscribe now...');
+      }
     } catch (err) {
-      setResponse('Sorry, I encountered an error while processing your request.');
       console.error('Error:', err);
     } finally {
       setIsWaiting(false);

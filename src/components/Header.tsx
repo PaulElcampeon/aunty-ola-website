@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { LogOut, User } from 'lucide-react';
-// import LoginModal from './LoginModal';
-// import PricingModal from './PricingModal';
 
 interface HeaderProps {
   onLoginClick: () => void;
-  // isLoginOpen: boolean;
-  // onLoginClose: () => void;
   onPricingClick: () => void;
   isLoggedIn: boolean;
   onLogout: () => void;
@@ -15,16 +11,11 @@ interface HeaderProps {
 
 export default function Header({ 
   onLoginClick, 
-  // isLoginOpen, 
-  // onLoginClose, 
-  // onCreateAccountClick,
   onPricingClick,
   isLoggedIn,
   onLogout,
   onProfileClick
 }: HeaderProps) {
-  // const [isPricingOpen, setIsPricingOpen] = useState(false);
-
   return (
     <>
       <header className="fixed w-full backdrop-blur-sm text-white p-4 z-10">
@@ -33,7 +24,7 @@ export default function Header({
             <img
               src="/images/logo.png"
               alt="Aunty Ola Logo"
-              className="w-16 h-16 rounded-full border-2 border-white/20"
+              className="hidden sm:block w-16 h-16 rounded-full border-2 border-white/20"
             />
           </div>
           <div className="flex gap-4">
@@ -71,13 +62,6 @@ export default function Header({
           </div>
         </div>
       </header>
-
-      {/* <LoginModal 
-        isOpen={isLoginOpen} 
-        onClose={onLoginClose}
-        onCreateAccountClick={onCreateAccountClick}
-      />
-      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} /> */}
     </>
   );
 }
