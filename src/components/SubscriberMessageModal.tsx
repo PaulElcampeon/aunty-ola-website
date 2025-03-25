@@ -31,10 +31,10 @@ export default function SubscriberMessageModal({ isOpen, onClose, onLoginClick }
                         />
                     </div>
                     <h2 className="text-2xl font-bold bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600 bg-clip-text text-transparent">
-                    Welcome!</h2>
+                    Welcome subscriber!</h2>
                 </div>
                 <p className="text-gray-600 mb-6">
-                    You should shortly receive a temporary password in your email. Use this password to log into your account for the first time using the email address you subscribed with.
+                    If you have not already made an account, you should shortly receive a temporary password in your email. Use this password to log into your account, using the email address you subscribed with. It is recommended you change your password in the profile section after your first login.
                 </p>
                 <button
                     onClick={() => {
