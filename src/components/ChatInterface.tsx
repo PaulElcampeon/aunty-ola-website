@@ -60,7 +60,12 @@ export default function ChatInterface() {
 
       if (response.status === 403) {
         // data.message
-        toast.error("You no longer have any more free requests, make sure to have a valid subscription");
+        toast.error("You no longer have any more free requests, subscribe to get full access");
+        setResponse('Come on go and subscribe now...');
+      }
+
+      if (response.status === 401) {
+        toast.error("Create an account to get 2 free requests");
         setResponse('Come on go and subscribe now...');
       }
     } catch (err) {
