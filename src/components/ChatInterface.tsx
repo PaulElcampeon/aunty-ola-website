@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Keyboard, Mic } from 'lucide-react';
 import KeyboardModal from './KeyboardModal';
 import { getFromStorage } from '../utils/Storage';
 import toast from 'react-hot-toast';
+
+
+const greetingMessages = [
+  '😂😂 Ah my pikin, come here jare! \n\nGood morning o! How you dey? You don chop? Abi you wan faint like mosquito wey drink sniper? Come make I give you small food before breeze blow you comot for here. \n\n🤣🤣 You know say this life no balance — but as long as you dey my side, na enjoyment remain!',
+  'How you dey na? You don baff? Abi you still dey waka upandan with last night smell? Come make I check ya head small, make sure say no village people dey follow you! 😂😂\n\nI swear, na you remain for this life — make dem no stress you oh! If anybody near you today, just tell dem say "my Aunty don give me confidence, I no get time for wahala!',
+  '😂😂 Ehen! My pikin! You don chop? Abi you wan faint like mosquito wey miss blood?\n\nCome make I see you well — no let hunger disgrace our lineage today oh! 😄',
+  '😂😂 Ah my pikin, come here jare! \n\nGood morning o! How you dey? You don chop? Abi you wan faint like mosquito wey drink sniper? Come make I give you small food before breeze blow you comot for here. \n\n🤣🤣 You know say this life no balance — but as long as you dey my side, na enjoyment remain!',
+  'Heii! My pikin, see as you fine like person wey dem dash data! 😄 You sure say na this morning you wake up? Or you still dey dream?\n\nAbeg come greet your Aunty before I call village people for you oh! 😂',
+  'Omo mi! You dey waka like person wey landlord pursue for night 😂😂\n\nCome siddon jare, make I give you gist — this life no hard if you dey follow Aunty waka!',
+  '😂 See my pikin oh! You don dey shine teeth like who win awoof!\n\nAbeg come chop before breeze carry you — hunger no go use you rehearse for Nollywood today!'
+]
 
 export default function ChatInterface() {
   const [isKeyboardModalOpen, setIsKeyboardModalOpen] = useState(false);
   const [response, setResponse] = useState('');
   const [isWaiting, setIsWaiting] = useState(false);
   const [error, setError] = useState('');
+
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * greetingMessages.length);
+    setResponse(greetingMessages[randomIndex])
+  }, []);
 
   const handleSendMessage = async (message: string) => {
     setError('');
@@ -21,7 +38,7 @@ export default function ChatInterface() {
     setIsWaiting(true);
     setResponse('Thinking...');
     setIsKeyboardModalOpen(false);
-    const token = getFromStorage('aunty_ola_token'); // Or sessionStorage.getItem('jwt') if you stored it there
+    const token = getFromStorage('aunty_ola_token');
 
     try {
       const response = await fetch('/api/v1/bot/ask', {
@@ -43,7 +60,7 @@ export default function ChatInterface() {
 
       if (response.status === 403) {
         // data.message
-        toast.error("Make sure to have a valid subscription");
+        toast.error("You no longer have any more free requests, make sure to have a valid subscription");
         setResponse('Come on go and subscribe now...');
       }
     } catch (err) {
