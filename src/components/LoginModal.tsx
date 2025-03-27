@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { saveToStorage } from '../utils/Storage';
@@ -15,12 +15,6 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
   const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) return null;
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
 
   const handleGoogleLogin = () => {
     window.location.href = '/oauth2/authorization/google';
@@ -50,8 +44,9 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
         onClose();
       }
     } catch (err) {
-      console.error('Error:', err);
+
     } finally {
+    
     }
   }
 
@@ -62,9 +57,7 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
-      onClick={handleBackdropClick}
-    >
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-8 w-[90%] sm:w-full max-w-md relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600"></div>
         <div className="flex items-center gap-4 mb-8">

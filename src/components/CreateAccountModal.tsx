@@ -21,10 +21,14 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
 
   if (!isOpen) return null;
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
+  const validatePassword = (password: string) => {
+    if (password.length < 5) {
+      return "Password must be at least 5 characters long.";
     }
+    if (!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+      return "Password must contain both letters and numbers.";
+    }
+    return "";
   };
 
   const validateForm = () => {
@@ -40,6 +44,12 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
 
     if (password !== confirmPassword) {
       setPasswordError('Passwords do not match');
+      isValid = false;
+    }
+
+    const passwordValidationMessage = validatePassword(password);
+    if (passwordValidationMessage) {
+      setPasswordError(passwordValidationMessage);
       isValid = false;
     }
 
@@ -67,8 +77,9 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
         toast.success('Account created successfully');
         onClose();
       } else if (response.status === 400) {
-        setServerError('Email already in use');
-        toast.error('Email already in use');
+        const data = await response.json();
+        setServerError(data.message);
+        toast.error(data.message);
       } else {
         throw new Error('Registration failed');
       }
@@ -83,22 +94,20 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
   };
 
   return (
-    <div 
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
-      onClick={handleBackdropClick}
-    >
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-8 w-[90%] sm:w-full max-w-md relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600"></div>
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600"></div>
         <div className="flex items-center gap-4 mb-8">
           <div className="p-3 rounded-full">
-          <img
+            <img
               src="/images/logo.png"
               alt="Aunty Ola Logo"
               className="w-14 h-14 rounded-full border-2 border-white/20"
             />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 bg-gradient-to-r from-nigerian-gold-500 to-nigerian-purple-600 bg-clip-text text-transparent">
-          Create Account
+            Create Account
           </h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -186,7 +195,6 @@ export default function CreateAccountModal({ isOpen, onClose, onLoginClick }: Cr
           >
             Create Account
           </button>
-
           <div className="text-center text-sm text-gray-600">
             Already have an account?{' '}
             <button

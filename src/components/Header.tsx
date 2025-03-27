@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { LogOut, User } from 'lucide-react';
 
 interface HeaderProps {

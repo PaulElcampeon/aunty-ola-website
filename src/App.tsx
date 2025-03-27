@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
+import { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import ChatInterface from './components/ChatInterface';
 import Header from './components/Header';
 import SubscriberMessageModal from './components/SubscriberMessageModal';

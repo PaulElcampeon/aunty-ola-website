@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Keyboard, Mic } from 'lucide-react';
 import KeyboardModal from './KeyboardModal';
 import { getFromStorage } from '../utils/Storage';
 import toast from 'react-hot-toast';
+import Typewritter from 'typewriter-effect';
 
 
 const greetingMessages = [
@@ -69,7 +70,7 @@ export default function ChatInterface() {
         setResponse('Come on go and subscribe now...');
       }
     } catch (err) {
-      console.error('Error:', err);
+
     } finally {
       setIsWaiting(false);
     }
@@ -94,13 +95,9 @@ export default function ChatInterface() {
           </div>
         </div>
 
-        <div className="relative">
-          <textarea
-            value={response}
-            disabled
-            placeholder="Your response will appear here..."
-            className="w-full min-h-[250px] p-4 pr-12 text-gray-700 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-nigerian-purple-500 focus:border-transparent resize-none disabled:bg-gray-50 disabled:text-gray-700"
-          />
+        <div className="relative w-full min-h-[250px] p-4 pr-12 text-gray-700 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-nigerian-purple-500 focus:border-transparent resize-none disabled:bg-gray-50 disabled:text-gray-700">          
+          <Typewritter
+            options={{ strings: response, autoStart: true, cursor: '_', delay: 50, loop: false, stringSplitter: (text) => [...text], }} />
         </div>
 
         <div className="mt-2 flex items-center gap-2">
