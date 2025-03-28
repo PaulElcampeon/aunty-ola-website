@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import ChatInterface from './components/ChatInterface';
+import AuntyOlaChatInterface from './components/ChatInterface/index'
 import Header from './components/Header';
 import SubscriberMessageModal from './components/SubscriberMessageModal';
 import CreateAccountModal from './components/CreateAccountModal';
