@@ -39,7 +39,7 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
         const data = await response.json();
         toast.success('Login success');
   
-        saveToStorage('aunty_ola_token', data.token, false)
+        saveToStorage('aunty_savitri_token', data.token, false)
         setToken(data.token)
         onClose();
       }
@@ -64,7 +64,7 @@ export default function LoginModal({ isOpen, onClose, onCreateAccountClick, setT
           <div className="p-2 rounded-full">
             <img
               src="/images/logo.png"
-              alt="Aunty Ola Logo"
+              alt="Aunty Savitri Logo"
               className="w-14 h-14 rounded-full border-2 border-white/20"
             />
           </div>

@@ -28,7 +28,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
             return;
         }
 
-        const token = getFromStorage('aunty_ola_token');
+        const token = getFromStorage('aunty_savitri_token');
 
         try {
             const response = await fetch('/api/v1/users/change-password', {
@@ -66,7 +66,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
                     <div className="p-3 rounded-full">
                         <img
                             src="/images/logo.png"
-                            alt="Aunty Ola Logo"
+                            alt="Aunty Savitri Logo"
                             className="w-12 h-12 rounded-full border-2 border-white/20"
                         />
                     </div>

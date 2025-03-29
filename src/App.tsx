@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import ChatInterface from './components/ChatInterface';
-import AuntyOlaChatInterface from './components/ChatInterface/index'
 import Header from './components/Header';
 import SubscriberMessageModal from './components/SubscriberMessageModal';
 import CreateAccountModal from './components/CreateAccountModal';
@@ -37,7 +36,7 @@ function App() {
     if (urlParams.has('token')) {
       const token = urlParams.get('token');
       if (token) {
-        saveToStorage('aunty_ola_token', token, false)
+        saveToStorage('aunty_savitri_token', token, false)
         setToken(token)
         setIsLoggedIn(true);
         window.history.replaceState({}, '', '/');
@@ -70,7 +69,7 @@ function App() {
       setIsLoggedIn(false);
       setShowProfileModal(false);
       setToken(undefined);
-      removeFromStorage('aunty_ola_token', false)
+      removeFromStorage('aunty_savitri_token', false)
     } catch (error) {
       console.error('Logout failed:', error);
     }

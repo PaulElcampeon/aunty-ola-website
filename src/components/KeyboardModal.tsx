@@ -33,7 +33,7 @@ export default function KeyboardModal({ isOpen, onClose, onSend }: KeyboardModal
           <div className="p-2 rounded-full">
             <img
               src="/images/logo.png"
-              alt="Aunty Ola Logo"
+              alt="Aunty Savitri Logo"
               className="w-14 h-14 rounded-full border-2 border-white/20"
             />
           </div>
